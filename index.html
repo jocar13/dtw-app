@@ -697,43 +697,125 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <!-- PLATFORM PLANS -->
-  <div class="section-view" id="sec-platforms">
+<!-- ===== STAGE 3A: PLATFORM PLANS ===== -->
+<div id="sec-platforms" class="section">
     <div class="section-header">
-      <div class="section-header-title">📱 Platform Plans</div>
-      <div class="section-header-sub">Editorial calendar & content guidelines</div>
+        <h2>Platform Plans</h2>
+        <p>Strategies, editorial calendars, and guidelines</p>
     </div>
-    <div class="placeholder-card" style="margin-top:16px;">
-      <div class="placeholder-icon">🏗️</div>
-      <div class="placeholder-title">Coming in Stage 3</div>
-      <div class="placeholder-sub">Per-platform plans, editorial calendar, and quick links</div>
+    
+    <!-- Quick Links -->
+    <div class="platform-quick-links" id="platform-quick-links">
+        <!-- JS will populate quick links here -->
     </div>
-  </div>
+    
+    <!-- Platform Content Container -->
+    <div id="platform-content-container">
+        <!-- JS will populate platform cards here -->
+    </div>
+</div>
+
+<style>
+/* PLATFORM PLANS CSS */
+.platform-quick-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.quick-link-btn {
+    flex: 1 1 calc(50% - 10px); background: #FFFFFF; border: 1px solid #D2D2D2;
+    border-radius: 8px; padding: 12px; text-align: center; text-decoration: none;
+    color: #0672CB; font-weight: 600; font-size: 14px; display: flex;
+    align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.platform-card {
+    background: #FFFFFF; border-radius: 12px; padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 4px solid #0672CB;
+}
+.platform-card h3 { margin-top: 0; margin-bottom: 12px; color: #00468B; display: flex; align-items: center; gap: 8px; }
+.platform-meta { font-size: 13px; color: #40586D; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #F0F0F0; }
+.platform-meta strong { color: #1D2C3B; }
+.platform-guidelines h4 { margin: 0 0 8px 0; font-size: 14px; color: #1D2C3B; }
+.platform-guidelines ul { margin: 0; padding-left: 20px; font-size: 14px; color: #40586D; line-height: 1.5; }
+.platform-guidelines li { margin-bottom: 6px; }
+</style>
 
   <!-- PUBLISHED POSTS -->
-  <div class="section-view" id="sec-posts">
+<!-- ===== STAGE 3B: PUBLISHED POSTS ===== -->
+<div id="sec-posts" class="section">
     <div class="section-header">
-      <div class="section-header-title">📋 Published Posts</div>
-      <div class="section-header-sub">Content tracker by day & platform</div>
+        <h2>Published Posts</h2>
+        <p>Live content tracker by day</p>
     </div>
-    <div class="placeholder-card" style="margin-top:16px;">
-      <div class="placeholder-icon">🏗️</div>
-      <div class="placeholder-title">Coming in Stage 3</div>
-      <div class="placeholder-sub">Published content links organized by day and platform</div>
+    
+    <div class="day-tabs" id="posts-day-tabs">
+        <!-- JS will populate day tabs -->
     </div>
-  </div>
+    
+    <div id="posts-content-container">
+        <!-- JS will populate live posts -->
+    </div>
+</div>
+
+<style>
+/* PUBLISHED POSTS CSS */
+.post-card {
+    background: #FFFFFF; border-radius: 10px; padding: 16px; margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid #E5E5E5;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.post-header { display: flex; justify-content: space-between; align-items: center; }
+.post-platform {
+    font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 12px;
+    background: #F0F0F0; color: #1D2C3B; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.post-time { font-size: 12px; color: #40586D; }
+.post-desc { font-size: 14px; color: #1D2C3B; line-height: 1.4; margin: 0; }
+.post-link { display: inline-block; margin-top: 4px; font-size: 14px; color: #0672CB; text-decoration: none; font-weight: 600; }
+.post-link::after { content: " ↗"; }
+.no-posts { text-align: center; padding: 30px 20px; color: #40586D; font-size: 14px; background: #FFFFFF; border-radius: 8px; border: 1px dashed #D2D2D2; }
+</style>
 
   <!-- RESOURCES -->
-  <div class="section-view" id="sec-resources">
+<!-- ===== STAGE 3C: RESOURCES ===== -->
+<div id="sec-resources" class="section">
     <div class="section-header">
-      <div class="section-header-title">📚 Resources</div>
-      <div class="section-header-sub">Guidelines, blogs & documents</div>
+        <h2>Resources</h2>
+        <p>Guidelines, assets, and speaker profiles</p>
     </div>
-    <div class="placeholder-card" style="margin-top:16px;">
-      <div class="placeholder-icon">🏗️</div>
-      <div class="placeholder-title">Coming in Stage 3</div>
-      <div class="placeholder-sub">Product info, content guidelines, SharePoint links, and newsroom</div>
+    
+    <div class="resource-group">
+        <h3>🔗 Important Links & Docs</h3>
+        <div id="resource-links-container" class="resource-grid">
+            <!-- JS populates links -->
+        </div>
     </div>
-  </div>
+    
+    <div class="resource-group">
+        <h3>🎙️ Featured Speakers</h3>
+        <div id="speaker-profiles-container">
+            <!-- JS populates speakers -->
+        </div>
+    </div>
+</div>
+
+<style>
+/* RESOURCES CSS */
+.resource-group { margin-bottom: 30px; }
+.resource-group h3 { font-size: 16px; color: #00468B; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #D2D2D2; }
+.resource-grid { display: flex; flex-direction: column; gap: 10px; }
+.resource-item {
+    background: #FFFFFF; border: 1px solid #D2D2D2; border-radius: 8px; padding: 14px;
+    text-decoration: none; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.resource-icon { font-size: 20px; }
+.resource-text { display: flex; flex-direction: column; }
+.resource-title { font-size: 14px; font-weight: 600; color: #1D2C3B; }
+.resource-desc { font-size: 12px; color: #40586D; margin-top: 2px; }
+.speaker-card { background: #FFFFFF; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; gap: 16px; align-items: flex-start; }
+.speaker-avatar { width: 60px; height: 60px; border-radius: 50%; background: #0672CB; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; flex-shrink: 0; }
+.speaker-info { flex: 1; }
+.speaker-name { margin: 0 0 4px 0; font-size: 16px; color: #1D2C3B; }
+.speaker-title { margin: 0 0 8px 0; font-size: 13px; color: #40586D; font-style: italic; }
+.speaker-bio { margin: 0; font-size: 13px; color: #1D2C3B; line-height: 1.4; }
+.speaker-linkedin { display: inline-block; margin-top: 8px; font-size: 12px; color: #0672CB; text-decoration: none; font-weight: 600; }
+</style>
 
   <!-- MY TRIP (In-site users only) -->
   <div class="section-view" id="sec-trip">
@@ -1418,6 +1500,142 @@ function renderHubManagerPanel(){
 
   statsContainer.innerHTML = html;
 }
+</script>
+
+  <!-- ===== STAGE 3D: JAVASCRIPT ===== -->
+<script>
+// --- PLATFORM PLANS JS ---
+function renderPlatformPlans() {
+    if (typeof PLATFORM_PLANS === 'undefined') return;
+    var quickLinks = document.getElementById('platform-quick-links');
+    var container = document.getElementById('platform-content-container');
+    if (!quickLinks || !container) return;
+    
+    quickLinks.innerHTML = '';
+    container.innerHTML = '';
+    
+    PLATFORM_PLANS.forEach(function(platform) {
+        // Quick Links
+        if (platform.url) {
+            quickLinks.innerHTML += '<a href="' + platform.url + '" target="_blank" class="quick-link-btn">' + (platform.icon || '📱') + ' ' + platform.name + '</a>';
+        }
+        
+        // Guidelines
+        var guidelinesHTML = '';
+        if (platform.guidelines && platform.guidelines.length > 0) {
+            guidelinesHTML = '<div class="platform-guidelines"><h4>Guidelines:</h4><ul>' +
+                platform.guidelines.map(function(g) { return '<li>' + g + '</li>'; }).join('') +
+                '</ul></div>';
+        }
+        
+        // Platform Color Logic
+        var borderColor = '#0672CB';
+        var nameLower = platform.name.toLowerCase();
+        if (nameLower.indexOf('linkedin') !== -1) borderColor = '#0077b5';
+        if (nameLower.indexOf('x') !== -1 || nameLower.indexOf('twitter') !== -1) borderColor = '#000000';
+        if (nameLower.indexOf('instagram') !== -1) borderColor = '#E1306C';
+        if (nameLower.indexOf('facebook') !== -1) borderColor = '#1877F2';
+        if (nameLower.indexOf('youtube') !== -1) borderColor = '#FF0000';
+        if (nameLower.indexOf('tiktok') !== -1) borderColor = '#010101';
+
+        container.innerHTML += '<div class="platform-card" style="border-top-color: ' + borderColor + '">' +
+            '<h3>' + (platform.icon || '📱') + ' ' + platform.name + '</h3>' +
+            '<div class="platform-meta">' +
+                '<div><strong>Focus:</strong> ' + (platform.focus || 'General') + '</div>' +
+                '<div><strong>Target Volume:</strong> ' + (platform.volume || 'N/A') + '</div>' +
+            '</div>' +
+            guidelinesHTML +
+        '</div>';
+    });
+}
+
+// --- PUBLISHED POSTS JS ---
+var currentPostsDay = "Monday";
+
+function renderPublishedPosts() {
+    if (typeof PUBLISHED_POSTS === 'undefined') return;
+    var tabsContainer = document.getElementById('posts-day-tabs');
+    var contentContainer = document.getElementById('posts-content-container');
+    if (!tabsContainer || !contentContainer) return;
+    
+    // Get unique days in order
+    var days = [];
+    PUBLISHED_POSTS.forEach(function(p) {
+        if (days.indexOf(p.day) === -1) days.push(p.day);
+    });
+    if (days.indexOf(currentPostsDay) === -1 && days.length > 0) currentPostsDay = days[0];
+    
+    // Render Day Tabs
+    tabsContainer.innerHTML = days.map(function(day) {
+        return '<button class="day-tab ' + (day === currentPostsDay ? 'active' : '') + '" onclick="filterPostsDay(\'' + day + '\')">' + day + '</button>';
+    }).join('');
+    
+    // Render Posts for selected day
+    var dayPosts = PUBLISHED_POSTS.filter(function(p) { return p.day === currentPostsDay; });
+    if (dayPosts.length === 0) {
+        contentContainer.innerHTML = '<div class="no-posts">No posts published yet for ' + currentPostsDay + '.</div>';
+        return;
+    }
+    
+    contentContainer.innerHTML = dayPosts.map(function(post) {
+        return '<div class="post-card">' +
+            '<div class="post-header">' +
+                '<span class="post-platform">' + post.platform + '</span>' +
+                '<span class="post-time">' + (post.time || '') + '</span>' +
+            '</div>' +
+            '<p class="post-desc">' + post.description + '</p>' +
+            (post.url ? '<a href="' + post.url + '" target="_blank" class="post-link">View Post</a>' : '') +
+        '</div>';
+    }).join('');
+}
+
+function filterPostsDay(day) {
+    currentPostsDay = day;
+    renderPublishedPosts();
+}
+
+// --- RESOURCES & SPEAKERS JS ---
+function renderResources() {
+    if (typeof RESOURCES === 'undefined' && typeof SPEAKER_PROFILES === 'undefined') return;
+    var linksContainer = document.getElementById('resource-links-container');
+    var speakersContainer = document.getElementById('speaker-profiles-container');
+    
+    // Links Render
+    if (linksContainer && typeof RESOURCES !== 'undefined') {
+        linksContainer.innerHTML = RESOURCES.map(function(res) {
+            return '<a href="' + res.url + '" target="_blank" class="resource-item">' +
+                '<div class="resource-icon">' + (res.icon || '📄') + '</div>' +
+                '<div class="resource-text">' +
+                    '<span class="resource-title">' + res.title + '</span>' +
+                    '<span class="resource-desc">' + (res.description || 'View document') + '</span>' +
+                '</div>' +
+            '</a>';
+        }).join('');
+    }
+    
+    // Speakers Render
+    if (speakersContainer && typeof SPEAKER_PROFILES !== 'undefined') {
+        speakersContainer.innerHTML = SPEAKER_PROFILES.map(function(speaker) {
+            var initials = speaker.name.split(' ').map(function(n) { return n[0]; }).join('').substring(0, 2);
+            return '<div class="speaker-card">' +
+                '<div class="speaker-avatar">' + initials + '</div>' +
+                '<div class="speaker-info">' +
+                    '<h4 class="speaker-name">' + speaker.name + '</h4>' +
+                    '<p class="speaker-title">' + speaker.title + '</p>' +
+                    '<p class="speaker-bio">' + speaker.bio + '</p>' +
+                    (speaker.linkedin ? '<a href="' + speaker.linkedin + '" target="_blank" class="speaker-linkedin">LinkedIn Profile ↗</a>' : '') +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+}
+
+// Initialize Stage 3 elements safely after app loads
+setTimeout(function() {
+    try { renderPlatformPlans(); } catch(e) { console.error('Platform Plans error:', e); }
+    try { renderPublishedPosts(); } catch(e) { console.error('Published Posts error:', e); }
+    try { renderResources(); } catch(e) { console.error('Resources error:', e); }
+}, 300);
 </script>
 
 </body>

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0672CB">
+
+<!-- PWA -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DTW App">
+<link rel="manifest" href="manifest.json">
+
+<!-- App icon (base64 Dell logo from PR app) -->
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAsTAAALEwEAmpwYAAAF0WlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPjxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDwvcmRmOlJERj48L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pgl0LjAAAARESURBVHic7dCxAQAgDMCw/ef+OecHFJKdX7PrDoA/GgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANAD8AANbBgQWl7rISAAAAABJRU5ErkJggg==">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAsTAAALEwEAmpwYAAAF0WlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPjxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDwvcmRmOlJERj48L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pgl0LjAAAARESURBVHic7dCxAQAgDMCw/ef+OecHFJKdX7PrDoA/GgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANABoANAAoAFAA4AGAA0AGgA0AGgA0ACgAUADgAYADQAaADQAaADQAKABQAOABgANABoANAD8AANbBgQWl7rISAAAAABJRU5ErkJggg==">
+
+<title>SM Team — DTW 2026</title>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  SM TEAM — DTW 2026 APP                                        ║
+// ║  EDITABLE DATA SECTION                                          ║
+// ║                                                                  ║
+// ║  ✅ EDIT ONLY THIS SECTION                                      ║
+// ║  🚫 DO NOT EDIT ANYTHING BELOW THE "END OF EDITABLE SECTION"    ║
+// ║                                                                  ║
+// ║  HOW TO UPDATE:                                                  ║
+// ║  1. Open this file in Notepad or any text editor                ║
+// ║  2. Find the section you want to change below                   ║
+// ║  3. Edit the text between the quote marks " "                   ║
+// ║  4. Save the file                                               ║
+// ║  5. Upload to GitHub (Add file → Upload → Commit changes)      ║
+// ║                                                                  ║
+// ║  TIPS:                                                           ║
+// ║  - Each entry is wrapped in { curly braces }                    ║
+// ║  - Entries are separated by commas                              ║
+// ║  - Text goes between "double quotes"                            ║
+// ║  - Don't delete the commas between entries                      ║
+// ║  - If something breaks, re-download the last working version   ║
+// ║    from GitHub (Settings → Pages → view deployment history)     ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+
+// ─────────────────────────────────────────────────────────────────
+// 1. EVENT INFO
+// ─────────────────────────────────────────────────────────────────
+var EVENT_INFO = {
+  name: "Dell Technologies World 2026",
+  shortName: "DTW 2026",
+  location: "The Venetian Resort, Las Vegas",
+  startDate: "2026-05-18",
+  endDate: "2026-05-21",
+  timezone: "America/Los_Angeles",
+  timezoneLabel: "PDT (Pacific)",
+  utcOffset: "UTC-7"
+};
+
+
+// ─────────────────────────────────────────────────────────────────
+// 2. TEAM MEMBERS
+// ─────────────────────────────────────────────────────────────────
+var TEAM_MEMBERS = [
+  // ── In-site Team Members ──
+  { name: "Sarah Chen",       code: "SC2026",  role: "insite",  platform: "Instagram",    shift: "Day 1: 8am-4pm, Day 2: 10am-6pm",   flight: "AA 1234 · May 17 · DFW→LAS · Departs 8:30am · Arrives 9:45am PT",   hotel: "The Venetian · Room TBD · Check-in May 17 · Check-out May 22" },
+  { name: "James Rodriguez",  code: "JR2026",  role: "insite",  platform: "X (Twitter)",  shift: "Day 1: 10am-6pm, Day 2: 8am-4pm",   flight: "UA 567 · May 17 · SFO→LAS · Departs 7:00am · Arrives 8:30am PT",   hotel: "The Venetian · Room TBD · Check-in May 17 · Check-out May 22" },
+  { name: "Maria Lopez",      code: "ML2026",  role: "insite",  platform: "LinkedIn",     shift: "Day 1: 9am-5pm, Day 2: 9am-5pm",    flight: "DL 890 · May 17 · ATL→LAS · Departs 6:00am · Arrives 8:15am PT",   hotel: "The Venetian · Room TBD · Check-in May 17 · Check-out May 22" },
+  { name: "Alex Kim",         code: "AK2026",  role: "insite",  platform: "TikTok",       shift: "Day 1: 12pm-8pm, Day 2: 12pm-8pm",  flight: "SW 345 · May 17 · AUS→LAS · Departs 9:00am · Arrives 10:15am PT",  hotel: "The Venetian · Room TBD · Check-in May 17 · Check-out May 22" },
+  { name: "Pat Taylor",       code: "PT2026",  role: "insite",  platform: "YouTube",      shift: "Day 1: 8am-4pm, Day 2: 12pm-8pm",   flight: "AA 678 · May 17 · DFW→LAS · Departs 10:00am · Arrives 11:15am PT", hotel: "The Venetian · Room TBD · Check-in May 17 · Check-out May 22" },
+
+  // ── Remote Team Members ──
+  { name: "Jordan Blake",     code: "JB2026",  role: "remote",  platform: "Facebook",     shift: "Day 1: 8am-4pm CT, Day 2: 10am-6pm CT",  flight: null,  hotel: null },
+  { name: "Casey Morgan",     code: "CM2026",  role: "remote",  platform: "Threads",      shift: "Day 1: 9am-5pm CT, Day 2: 9am-5pm CT",   flight: null,  hotel: null },
+  { name: "Riley Nguyen",     code: "RN2026",  role: "remote",  platform: "Instagram",    shift: "Day 2: 8am-4pm CT, Day 3: 10am-6pm CT",  flight: null,  hotel: null },
+  { name: "Sam Patel",        code: "SP2026",  role: "remote",  platform: "LinkedIn",     shift: "Day 1: 10am-6pm CT, Day 3: 8am-4pm CT",  flight: null,  hotel: null },
+
+  // ── Managers ──
+  { name: "Diana Reeves",     code: "DR2026",  role: "manager", platform: null,           shift: null,  flight: "UA 100 · May 17 · EWR→LAS · Departs 7:00am · Arrives 9:30am PT",  hotel: "The Venetian · Room TBD · Check-in May 17 · Check-out May 22" },
+  { name: "Marcus Webb",      code: "MW2026",  role: "manager", platform: null,           shift: null,  flight: null,  hotel: null },
+
+  // ── Administrator (you) ──
+  { name: "Admin User",       code: "ADMIN",   role: "admin",   platform: "X (Twitter)",  shift: "Day 1: 8am-8pm CT, Day 2: 8am-8pm CT",  flight: null,  hotel: null }
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 3. UPDATES FEED
+// ─────────────────────────────────────────────────────────────────
+var UPDATES = [
+  { date: "2026-05-18", time: "08:00", text: "Welcome to DTW 2026! Check your shifts in Team Hub.", priority: "high" },
+  { date: "2026-05-17", time: "18:00", text: "Reminder: Team sync tonight at 7pm PT in Venetian Suite 4B.", priority: "normal" },
+  { date: "2026-05-17", time: "09:00", text: "All content guidelines have been updated in Resources. Please review before posting.", priority: "normal" }
+  // Add new updates above this line ↑
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 4. PUBLISHED POSTS (Content Tracker)
+// ─────────────────────────────────────────────────────────────────
+var PUBLISHED_POSTS = [
+  // { platform: "Instagram", day: "Day 1", title: "Keynote recap carousel", url: "https://instagram.com/p/..." },
+  // { platform: "X",         day: "Day 1", title: "Live thread — Michael Dell keynote", url: "https://x.com/DellTech/status/..." },
+  // Add published posts above this line ↑
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 5. SOCIAL MEDIA QUICK LINKS
+// ─────────────────────────────────────────────────────────────────
+var SOCIAL_LINKS = [
+  { platform: "Instagram",  label: "@DellTechnologies",  url: "https://www.instagram.com/delltechnologies/" },
+  { platform: "X",          label: "@DellTech",           url: "https://x.com/DellTech" },
+  { platform: "LinkedIn",   label: "Dell Technologies",   url: "https://www.linkedin.com/company/delltechnologies/" },
+  { platform: "TikTok",     label: "@dell",               url: "https://www.tiktok.com/@dell" },
+  { platform: "YouTube",    label: "Dell Technologies",   url: "https://www.youtube.com/dell" },
+  { platform: "Facebook",   label: "Dell Technologies",   url: "https://www.facebook.com/Dell/" },
+  { platform: "Threads",    label: "@delltechnologies",   url: "https://www.threads.net/@delltechnologies" }
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 6. RESOURCE LINKS
+// ─────────────────────────────────────────────────────────────────
+var RESOURCES = [
+  { title: "Content Guidelines",         type: "sharepoint", url: "https://yourcompany.sharepoint.com/..." },
+  { title: "DTW 2026 Editorial Calendar", type: "sharepoint", url: "https://yourcompany.sharepoint.com/..." },
+  { title: "Product Key Messages",        type: "sharepoint", url: "https://yourcompany.sharepoint.com/..." },
+  { title: "Approved Hashtags & Handles", type: "sharepoint", url: "https://yourcompany.sharepoint.com/..." },
+  { title: "DTW 2026 Newsroom",           type: "newsroom",   url: "https://www.dell.com/en-us/dt/corporate/newsroom.htm" },
+  { title: "Dell Technologies Blog",      type: "blog",       url: "https://www.dell.com/en-us/blog/" },
+  { title: "Dell AI Factory Overview",    type: "external",   url: "https://www.dell.com/en-us/dt/ai-technologies/index.htm" }
+  // Add more resources above this line ↑
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 7. CONTACTS
+// ─────────────────────────────────────────────────────────────────
+var CONTACTS = [
+  { name: "Admin User",     role: "App Administrator",        method: "teams",    value: "admin@company.com" },
+  { name: "Diana Reeves",   role: "SM Manager (In-site)",     method: "teams",    value: "diana.reeves@company.com" },
+  { name: "Marcus Webb",    role: "SM Manager (Remote)",      method: "teams",    value: "marcus.webb@company.com" },
+  { name: "IT Support",     role: "Platform issues",          method: "email",    value: "itsupport@company.com" }
+  // Add more contacts above this line ↑
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 8. EVENT AGENDA (Keynotes & Key Sessions)
+// ─────────────────────────────────────────────────────────────────
+var EVENT_AGENDA = [
+  { day: "Day 1", time: "09:00", endTime: "11:00", title: "Opening Keynote — Michael Dell",           location: "Venetian Main Hall",     type: "keynote",      details: "Annual opening keynote with major announcements" },
+  { day: "Day 1", time: "13:00", endTime: "14:00", title: "AI Factory: From Vision to Reality",       location: "Hall B, Session Room 1", type: "session",      details: "Deep dive into Dell AI Factory architecture and customer wins" },
+  { day: "Day 1", time: "18:00", endTime: "19:00", title: "SM Team Daily Sync",                       location: "Venetian Suite 4B",      type: "team-meeting", details: "Daily team sync — review coverage, plan next day" },
+  { day: "Day 2", time: "09:00", endTime: "10:30", title: "Day 2 Keynote — AI & Innovation",          location: "Venetian Main Hall",     type: "keynote",      details: "Partner and customer keynote" },
+  { day: "Day 2", time: "14:00", endTime: "15:00", title: "PowerEdge & Infrastructure Sessions",      location: "Hall C",                 type: "session",      details: "Server and infrastructure deep dive" },
+  { day: "Day 2", time: "18:00", endTime: "19:00", title: "SM Team Daily Sync",                       location: "Venetian Suite 4B",      type: "team-meeting", details: "Daily team sync — review coverage, plan next day" },
+  { day: "Day 3", time: "09:00", endTime: "10:00", title: "Day 3 Keynote — Customer Stories",         location: "Venetian Main Hall",     type: "keynote",      details: "Customer success stories and use cases" },
+  { day: "Day 3", time: "18:00", endTime: "19:00", title: "SM Team Daily Sync",                       location: "Venetian Suite 4B",      type: "team-meeting", details: "Daily team sync — review coverage, wrap-up" },
+  { day: "Day 4", time: "09:00", endTime: "10:30", title: "Closing Keynote",                          location: "Venetian Main Hall",     type: "keynote",      details: "Closing session and forward-looking remarks" }
+  // Add more agenda items above this line ↑
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 9. FLOOR MAP IMAGE
+// ─────────────────────────────────────────────────────────────────
+var FLOOR_MAP_URL = "";
+var FLOOR_MAP_ALT = "DTW 2026 Venue Floor Map — The Venetian Resort";
+
+
+// ─────────────────────────────────────────────────────────────────
+// 10. PLATFORM PLANS (Editorial Calendar)
+// ─────────────────────────────────────────────────────────────────
+var PLATFORM_PLANS = [
+  { platform: "Instagram", day: "Day 1", task: "Keynote recap carousel — post by 2pm PT", assignee: "Sarah Chen", status: "planned" },
+  { platform: "Instagram", day: "Day 2", task: "Behind-the-scenes Stories from expo floor", assignee: "Sarah Chen", status: "planned" },
+  { platform: "X",         day: "Day 1", task: "Live thread during Michael Dell keynote", assignee: "James Rodriguez", status: "planned" },
+  { platform: "X",         day: "Day 1", task: "Quote cards from keynote announcements", assignee: "James Rodriguez", status: "planned" },
+  { platform: "LinkedIn",  day: "Day 1", task: "AI Factory announcement post with key stats", assignee: "Maria Lopez", status: "planned" },
+  { platform: "LinkedIn",  day: "Day 2", task: "Customer story highlight — thread format", assignee: "Maria Lopez", status: "planned" },
+  { platform: "TikTok",    day: "Day 1", task: "Expo floor walkthrough — 60s vertical", assignee: "Alex Kim", status: "planned" },
+  { platform: "YouTube",   day: "Day 1", task: "Keynote highlights reel — 3-5 min edit", assignee: "Pat Taylor", status: "planned" },
+  { platform: "Facebook",  day: "Day 1", task: "Photo album — Day 1 recap", assignee: "Jordan Blake", status: "planned" },
+  { platform: "Threads",   day: "Day 1", task: "Key announcement thread — mirror X content", assignee: "Casey Morgan", status: "planned" }
+  // Add more platform tasks above this line ↑
+];
+
+
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  🛑 END OF EDITABLE SECTION                                     ║
+// ║  Do NOT modify anything below this line.                        ║
+// ╚══════════════════════════════════════════════════════════════════╝
+</script>
+
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #F0F0F0;
+  color: #1D2C3B;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── APP CONTAINER ── */
+.app { max-width: 430px; margin: 0 auto; background: #F0F0F0; min-height: 100dvh; position: relative; }
+
+/* ── LOGIN SCREEN ── */
+.login-screen {
+  position: fixed; inset: 0; z-index: 10000;
+  background: linear-gradient(160deg, #0D2155 0%, #0672CB 50%, #00468B 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px; gap: 24px;
+}
+.login-logo { height: 20px; opacity: 0.8; }
+.login-title { font-size: 24px; font-weight: 700; color: #fff; text-align: center; }
+.login-subtitle { font-size: 14px; color: rgba(255,255,255,0.7); text-align: center; margin-top: -12px; }
+.login-card {
+  background: #fff; border-radius: 16px; padding: 28px 24px; width: 100%; max-width: 340px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.login-label { font-size: 12px; font-weight: 600; color: #40586D; margin-bottom: 6px; display: block; letter-spacing: 0.04em; }
+.login-select, .login-input {
+  width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #D2D2D2;
+  font-size: 15px; color: #1D2C3B; background: #F0F0F0; margin-bottom: 16px;
+  font-family: inherit; appearance: none; -webkit-appearance: none;
+}
+.login-select { background: #F0F0F0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2340586D' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center; padding-right: 36px; cursor: pointer; }
+.login-input { background: #fff; }
+.login-input:focus, .login-select:focus { outline: none; border-color: #0672CB; }
+.login-btn {
+  width: 100%; padding: 14px; border-radius: 12px; border: none;
+  background: #0672CB; color: #fff; font-size: 16px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.login-btn:active { background: #00468B; }
+.login-error { color: #D32F2F; font-size: 13px; text-align: center; margin-top: -8px; margin-bottom: 8px; display: none; }
+
+/* ── TOP BAR ── */
+.topbar {
+  background: linear-gradient(135deg, #0D2155 0%, #0672CB 100%);
+  color: #fff; padding: 50px 20px 14px; position: sticky; top: 0; z-index: 100;
+}
+.topbar-row { display: flex; align-items: center; gap: 10px; }
+.topbar-logo { height: 16px; opacity: 0.8; }
+.topbar-title { font-size: 17px; font-weight: 600; flex: 1; }
+.topbar-user { font-size: 11px; opacity: 0.75; font-weight: 500; }
+.topbar-back {
+  font-size: 22px; cursor: pointer; background: none; border: none; color: #fff;
+  padding: 0 8px 0 0; line-height: 1; display: none;
+}
+
+/* ── HERO ── */
+.hero { background: linear-gradient(135deg, #0672CB 0%, #00468B 100%); padding: 0 20px 24px; color: #fff; }
+.hero-event { font-size: 22px; font-weight: 700; line-height: 1.15; margin-bottom: 4px; }
+.hero-location { font-size: 13px; opacity: 0.8; margin-bottom: 2px; }
+.hero-dates { font-size: 13px; opacity: 0.7; }
+.hero-day-badge {
+  display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px;
+  padding: 5px 14px; font-size: 12px; font-weight: 600; margin-top: 10px;
+}
+.hero-greeting { font-size: 15px; font-weight: 500; margin-top: 12px; opacity: 0.9; }
+
+/* ── HOME CARDS GRID ── */
+.home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; }
+.home-card {
+  background: #fff; border-radius: 14px; padding: 18px 16px; cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06); transition: transform 0.1s, box-shadow 0.15s;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.home-card:active { transform: scale(0.97); }
+.home-card-icon { font-size: 24px; }
+.home-card-title { font-size: 14px; font-weight: 600; color: #1D2C3B; }
+.home-card-desc { font-size: 11px; color: #40586D; line-height: 1.4; }
+.home-card.full-width { grid-column: 1 / -1; }
+.home-card.hidden { display: none; }
+
+/* ── UPDATES FEED ── */
+.updates-section { padding: 0 16px 16px; }
+.updates-title { font-size: 13px; font-weight: 700; color: #40586D; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+.update-item {
+  background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; gap: 12px; align-items: flex-start;
+}
+.update-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+}
+.update-dot.high { background: #D32F2F; }
+.update-dot.normal { background: #0672CB; }
+.update-text { font-size: 14px; color: #1D2C3B; line-height: 1.5; flex: 1; }
+.update-meta { font-size: 11px; color: #B6B6B6; margin-top: 4px; }
+
+/* ── SECTION VIEWS ── */
+.section-view { display: none; padding: 0 0 100px; }
+.section-view.active { display: block; }
+.section-header {
+  background: linear-gradient(135deg, #0672CB 0%, #00468B 100%);
+  padding: 20px 20px 22px; color: #fff;
+}
+.section-header-title { font-size: 22px; font-weight: 700; }
+.section-header-sub { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+
+.sec-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  color: #40586D; padding: 20px 20px 8px; text-transform: uppercase;
+}
+
+/* ── PLACEHOLDER CARDS ── */
+.placeholder-card {
+  background: #fff; border: 2px dashed #D2D2D2; border-radius: 14px;
+  margin: 0 16px 12px; padding: 40px 24px; text-align: center;
+}
+.placeholder-icon { font-size: 32px; margin-bottom: 8px; }
+.placeholder-title { font-size: 15px; font-weight: 600; color: #40586D; margin-bottom: 4px; }
+.placeholder-sub { font-size: 12px; color: #B6B6B6; }
+
+/* ── FOOTER ── */
+.app-footer {
+  text-align: center; padding: 24px 16px; font-size: 11px; color: #B6B6B6;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- LOGIN SCREEN                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="login-screen" id="loginScreen">
+  <img class="login-logo" src="data:image/png;base64,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" alt="Dell Technologies">
+  <div class="login-title">SM Team — DTW 2026</div>
+  <div class="login-subtitle">Social Media Team Event App</div>
+  <div class="login-card">
+    <label class="login-label" for="loginName">Select your name</label>
+    <select class="login-select" id="loginName">
+      <option value="">— Choose —</option>
+    </select>
+    <label class="login-label" for="loginCode">Password</label>
+    <input class="login-input" type="password" id="loginCode" placeholder="Enter your code" autocomplete="off">
+    <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
+    <button class="login-btn" id="loginBtn" onclick="attemptLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- MAIN APP                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="app" id="mainApp" style="display:none;">
+
+  <!-- TOP BAR -->
+  <div class="topbar" id="topbar">
+    <div class="topbar-row">
+      <button class="topbar-back" id="backBtn" onclick="goHome()">←</button>
+      <img class="topbar-logo" src="data:image/png;base64,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" alt="Dell Technologies">
+      <div class="topbar-title" id="topbarTitle">SM Team — DTW 2026</div>
+    </div>
+    <div class="topbar-user" id="topbarUser"></div>
+  </div>
+
+  <!-- HOME VIEW -->
+  <div id="homeView">
+    <div class="hero" id="heroSection">
+      <div class="hero-greeting" id="heroGreeting"></div>
+      <div class="hero-event" id="heroEvent"></div>
+      <div class="hero-location" id="heroLocation"></div>
+      <div class="hero-dates" id="heroDates"></div>
+      <div class="hero-day-badge" id="heroDayBadge"></div>
+    </div>
+
+    <!-- UPDATES FEED -->
+    <div class="updates-section">
+      <div class="updates-title">📢 Updates</div>
+      <div id="updatesFeed"></div>
+    </div>
+
+    <!-- NAVIGATION CARDS -->
+    <div class="home-grid" id="homeGrid">
+      <div class="home-card" onclick="openSection('agenda')">
+        <div class="home-card-icon">📅</div>
+        <div class="home-card-title">Event Agenda</div>
+        <div class="home-card-desc">Keynotes, sessions & schedule</div>
+      </div>
+      <div class="home-card" onclick="openSection('teamhub')">
+        <div class="home-card-icon">👥</div>
+        <div class="home-card-title">Team Hub</div>
+        <div class="home-card-desc">Shifts, roles & meetings</div>
+      </div>
+      <div class="home-card" onclick="openSection('platforms')">
+        <div class="home-card-icon">📱</div>
+        <div class="home-card-title">Platform Plans</div>
+        <div class="home-card-desc">Editorial calendar & guidelines</div>
+      </div>
+      <div class="home-card" onclick="openSection('posts')">
+        <div class="home-card-icon">📋</div>
+        <div class="home-card-title">Published Posts</div>
+        <div class="home-card-desc">Content tracker by day</div>
+      </div>
+      <div class="home-card" onclick="openSection('resources')">
+        <div class="home-card-icon">📚</div>
+        <div class="home-card-title">Resources</div>
+        <div class="home-card-desc">Guidelines, blogs & docs</div>
+      </div>
+      <div class="home-card" id="tripCard" onclick="openSection('trip')">
+        <div class="home-card-icon">✈️</div>
+        <div class="home-card-title">My Trip</div>
+        <div class="home-card-desc">Flights, hotel & logistics</div>
+      </div>
+      <div class="home-card full-width" onclick="openSection('contacts')">
+        <div class="home-card-icon">📞</div>
+        <div class="home-card-title">Contacts</div>
+        <div class="home-card-desc">Team directory & support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION VIEWS (Stages 2-4 placeholders) ── -->
+
+  <!-- EVENT AGENDA -->
+  <div class="section-view" id="sec-agenda">
+    <div class="section-header">
+      <div class="section-header-title">📅 Event Agenda</div>
+      <div class="section-header-sub">Dell Technologies World 2026</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 2</div>
+      <div class="placeholder-sub">Full event agenda with keynotes, sessions, and floor map</div>
+    </div>
+  </div>
+
+  <!-- TEAM HUB -->
+  <div class="section-view" id="sec-teamhub">
+    <div class="section-header">
+      <div class="section-header-title">👥 Team Hub</div>
+      <div class="section-header-sub">Shifts, roles & team meetings</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 2</div>
+      <div class="placeholder-sub">Shift calendar, roles, responsibilities, and manager overview</div>
+    </div>
+  </div>
+
+  <!-- PLATFORM PLANS -->
+  <div class="section-view" id="sec-platforms">
+    <div class="section-header">
+      <div class="section-header-title">📱 Platform Plans</div>
+      <div class="section-header-sub">Editorial calendar & content guidelines</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 3</div>
+      <div class="placeholder-sub">Per-platform plans, editorial calendar, and quick links</div>
+    </div>
+  </div>
+
+  <!-- PUBLISHED POSTS -->
+  <div class="section-view" id="sec-posts">
+    <div class="section-header">
+      <div class="section-header-title">📋 Published Posts</div>
+      <div class="section-header-sub">Content tracker by day & platform</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 3</div>
+      <div class="placeholder-sub">Published content links organized by day and platform</div>
+    </div>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="section-view" id="sec-resources">
+    <div class="section-header">
+      <div class="section-header-title">📚 Resources</div>
+      <div class="section-header-sub">Guidelines, blogs & documents</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 3</div>
+      <div class="placeholder-sub">Product info, content guidelines, SharePoint links, and newsroom</div>
+    </div>
+  </div>
+
+  <!-- MY TRIP (In-site users only) -->
+  <div class="section-view" id="sec-trip">
+    <div class="section-header">
+      <div class="section-header-title">✈️ My Trip</div>
+      <div class="section-header-sub">Flights, hotel & logistics</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 4</div>
+      <div class="placeholder-sub">Personal flight details, hotel info, meals, and on-site logistics</div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="section-view" id="sec-contacts">
+    <div class="section-header">
+      <div class="section-header-title">📞 Contacts</div>
+      <div class="section-header-sub">Team directory & support</div>
+    </div>
+    <div class="placeholder-card" style="margin-top:16px;">
+      <div class="placeholder-icon">🏗️</div>
+      <div class="placeholder-title">Coming in Stage 4</div>
+      <div class="placeholder-sub">Team directory, escalation contacts, and logout</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="app-footer">
+    SM Team — DTW 2026 · v1.0<br>
+    Dell Technologies · Social Media Team
+  </div>
+
+</div><!-- end .app -->
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- INSTALL BANNER (iOS / Android)                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="install-banner" style="display:none; background:#0D2155; padding:12px 16px; position:fixed; bottom:0; left:0; right:0; z-index:200; max-width:430px; margin:0 auto;">
+  <div id="install-ios" style="display:none; align-items:center; gap:10px;">
+    <div style="font-size:22px; flex-shrink:0;">⇧</div>
+    <div style="flex:1;">
+      <div style="font-size:13px; font-weight:600; color:#fff;">Install as App</div>
+      <div style="font-size:11px; color:rgba(255,255,255,0.8); margin-top:1px;">Tap <strong style="color:#fff;">Share</strong> then <strong style="color:#fff;">"Add to Home Screen"</strong></div>
+    </div>
+    <button onclick="document.getElementById('install-banner').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:20px;cursor:pointer;padding:0 4px;">✕</button>
+  </div>
+  <div id="install-android" style="display:none; align-items:center; gap:10px;">
+    <div style="font-size:20px; flex-shrink:0;">📱</div>
+    <div style="flex:1;">
+      <div style="font-size:13px; font-weight:600; color:#fff;">Install as App</div>
+      <div style="font-size:11px; color:rgba(255,255,255,0.8); margin-top:1px;">Add to home screen for quick access</div>
+    </div>
+    <button id="install-android-btn" style="background:#fff;border:none;color:#0D2155;font-size:12px;font-weight:700;padding:7px 14px;border-radius:20px;cursor:pointer;">Install</button>
+    <button onclick="document.getElementById('install-banner').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:20px;cursor:pointer;padding:0 4px;">✕</button>
+  </div>
+</div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  APPLICATION LOGIC — DO NOT EDIT                                ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+(function() {
+  'use strict';
+
+  // ── ERROR TOLERANCE WRAPPER ──
+  function safe(fn) {
+    try { fn(); } catch(e) { console.warn('App error:', e); }
+  }
+
+  // ── STATE ──
+  var currentUser = null;
+  var currentSection = null;
+
+  // ── DOM HELPERS ──
+  function $(id) { return document.getElementById(id); }
+  function show(id) { var el = $(id); if(el) el.style.display = 'block'; }
+  function hide(id) { var el = $(id); if(el) el.style.display = 'none'; }
+
+  // ── LOGIN SYSTEM ──
+  function initLogin() {
+    safe(function() {
+      // Check localStorage for existing session
+      var saved = localStorage.getItem('dtw_user');
+      if(saved) {
+        try {
+          currentUser = JSON.parse(saved);
+          var found = false;
+          for(var i = 0; i < TEAM_MEMBERS.length; i++) {
+            if(TEAM_MEMBERS[i].name === currentUser.name && TEAM_MEMBERS[i].code === currentUser.code) {
+              currentUser = TEAM_MEMBERS[i];
+              found = true;
+              break;
+            }
+          }
+          if(found) {
+            hideLogin();
+            renderApp();
+            return;
+          }
+        } catch(e) {}
+      }
+      // Show login screen
+      showLogin();
+    });
+  }
+
+  function showLogin() {
+    safe(function() {
+      $('loginScreen').style.display = 'flex';
+      $('mainApp').style.display = 'none';
+      populateDropdown();
+    });
+  }
+
+  function hideLogin() {
+    safe(function() {
+      $('loginScreen').style.display = 'none';
+      $('mainApp').style.display = 'block';
+    });
+  }
+
+  function populateDropdown() {
+    safe(function() {
+      var sel = $('loginName');
+      sel.innerHTML = '<option value="">— Choose —</option>';
+      for(var i = 0; i < TEAM_MEMBERS.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = TEAM_MEMBERS[i].name;
+        sel.appendChild(opt);
+      }
+    });
+  }
+
+  window.attemptLogin = function() {
+    safe(function() {
+      var sel = $('loginName');
+      var codeInput = $('loginCode');
+      var errEl = $('loginError');
+      var idx = sel.value;
+
+      errEl.style.display = 'none';
+
+      if(idx === '') {
+        errEl.textContent = 'Please select your name.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      var member = TEAM_MEMBERS[parseInt(idx)];
+      if(!member) {
+        errEl.textContent = 'Invalid selection.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      if(codeInput.value.trim() !== member.code) {
+        errEl.textContent = 'Incorrect password. Please try again.';
+        errEl.style.display = 'block';
+        codeInput.value = '';
+        return;
+      }
+
+      // Success
+      currentUser = member;
+      localStorage.setItem('dtw_user', JSON.stringify({ name: member.name, code: member.code }));
+      hideLogin();
+      renderApp();
+    });
+  };
+
+  // ── RENDER APP ──
+  function renderApp() {
+    safe(function() {
+      renderTopbar();
+      renderHero();
+      renderUpdates();
+      renderNavCards();
+      goHome();
+    });
+  }
+
+  // ── TOPBAR ──
+  function renderTopbar() {
+    safe(function() {
+      var userEl = $('topbarUser');
+      if(userEl && currentUser) {
+        var roleLabel = currentUser.role === 'insite' ? 'In-site' :
+                        currentUser.role === 'remote' ? 'Remote' :
+                        currentUser.role === 'manager' ? 'Manager' :
+                        currentUser.role === 'admin' ? 'Admin' : '';
+        userEl.textContent = currentUser.name + ' · ' + roleLabel;
+      }
+    });
+  }
+
+  // ── HERO ──
+  function renderHero() {
+    safe(function() {
+      $('heroGreeting').textContent = 'Welcome, ' + currentUser.name.split(' ')[0] + ' 👋';
+      $('heroEvent').textContent = EVENT_INFO.name;
+      $('heroLocation').textContent = '📍 ' + EVENT_INFO.location;
+
+      var start = new Date(EVENT_INFO.startDate + 'T00:00:00');
+      var end = new Date(EVENT_INFO.endDate + 'T00:00:00');
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      $('heroDates').textContent = months[start.getMonth()] + ' ' + start.getDate() + ' – ' + end.getDate() + ', ' + start.getFullYear();
+
+      // Day badge
+      var today = new Date();
+      var dayNum = Math.floor((today - start) / 86400000) + 1;
+      var badge = $('heroDayBadge');
+      if(dayNum >= 1 && dayNum <= 4) {
+        badge.textContent = '📅 Day ' + dayNum;
+      } else if(dayNum < 1) {
+        var daysUntil = Math.ceil((start - today) / 86400000);
+        badge.textContent = '⏳ ' + daysUntil + ' day' + (daysUntil !== 1 ? 's' : '') + ' until event';
+      } else {
+        badge.textContent = '✅ Event concluded';
+      }
+    });
+  }
+
+  // ── UPDATES FEED ──
+  function renderUpdates() {
+    safe(function() {
+      var feed = $('updatesFeed');
+      if(!feed) return;
+      feed.innerHTML = '';
+
+      if(!UPDATES || UPDATES.length === 0) {
+        feed.innerHTML = '<div style="text-align:center;padding:20px;color:#B6B6B6;font-size:13px;">No updates yet</div>';
+        return;
+      }
+
+      for(var i = 0; i < Math.min(UPDATES.length, 10); i++) {
+        var u = UPDATES[i];
+        var div = document.createElement('div');
+        div.className = 'update-item';
+        var dotClass = (u.priority === 'high') ? 'high' : 'normal';
+        div.innerHTML = '<div class="update-dot ' + dotClass + '"></div>' +
+          '<div><div class="update-text">' + u.text + '</div>' +
+          '<div class="update-meta">' + u.date + ' · ' + u.time + '</div></div>';
+        feed.appendChild(div);
+      }
+    });
+  }
+
+  // ── NAVIGATION CARDS ──
+  function renderNavCards() {
+    safe(function() {
+      // Show/hide My Trip card based on role
+      var tripCard = $('tripCard');
+      if(tripCard) {
+        if(currentUser.role === 'insite' || currentUser.role === 'admin') {
+          tripCard.classList.remove('hidden');
+        } else if(currentUser.role === 'manager' && currentUser.flight) {
+          tripCard.classList.remove('hidden');
+        } else {
+          tripCard.classList.add('hidden');
+        }
+      }
+    });
+  }
+
+  // ── SECTION NAVIGATION ──
+  window.openSection = function(sectionId) {
+    safe(function() {
+      currentSection = sectionId;
+
+      // Hide home view
+      var homeView = $('homeView');
+      if(homeView) homeView.style.display = 'none';
+
+      // Hide all section views
+      var sections = document.querySelectorAll('.section-view');
+      for(var i = 0; i < sections.length; i++) {
+        sections[i].classList.remove('active');
+      }
+
+      // Show target section
+      var target = $('sec-' + sectionId);
+      if(target) {
+        target.classList.add('active');
+      }
+
+      // Show back button
+      var backBtn = $('backBtn');
+      if(backBtn) backBtn.style.display = 'block';
+
+      // Update topbar title
+      var titles = {
+        'agenda': '📅 Event Agenda',
+        'teamhub': '👥 Team Hub',
+        'platforms': '📱 Platform Plans',
+        'posts': '📋 Published Posts',
+        'resources': '📚 Resources',
+        'trip': '✈️ My Trip',
+        'contacts': '📞 Contacts'
+      };
+      var topTitle = $('topbarTitle');
+      if(topTitle) topTitle.textContent = titles[sectionId] || 'SM Team — DTW 2026';
+
+      window.scrollTo(0, 0);
+    });
+  };
+
+  window.goHome = function() {
+    safe(function() {
+      currentSection = null;
+
+      // Show home view
+      var homeView = $('homeView');
+      if(homeView) homeView.style.display = 'block';
+
+      // Hide all section views
+      var sections = document.querySelectorAll('.section-view');
+      for(var i = 0; i < sections.length; i++) {
+        sections[i].classList.remove('active');
+      }
+
+      // Hide back button
+      var backBtn = $('backBtn');
+      if(backBtn) backBtn.style.display = 'none';
+
+      // Reset topbar title
+      var topTitle = $('topbarTitle');
+      if(topTitle) topTitle.textContent = 'SM Team — DTW 2026';
+
+      window.scrollTo(0, 0);
+    });
+  };
+
+  // ── LOGOUT ──
+  window.logout = function() {
+    safe(function() {
+      localStorage.removeItem('dtw_user');
+      currentUser = null;
+      currentSection = null;
+      showLogin();
+    });
+  };
+
+  // ── INSTALL BANNER (PWA) ──
+  function initInstallBanner() {
+    safe(function() {
+      // Skip if already installed
+      if(window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) return;
+
+      var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      var isAndroid = /android/i.test(navigator.userAgent);
+      var banner = $('install-banner');
+
+      if(isIOS) {
+        banner.style.display = 'block';
+        $('install-ios').style.display = 'flex';
+      }
+
+      if(isAndroid) {
+        var deferredPrompt;
+        window.addEventListener('beforeinstallprompt', function(e) {
+          e.preventDefault();
+          deferredPrompt = e;
+          banner.style.display = 'block';
+          $('install-android').style.display = 'flex';
+          $('install-android-btn').addEventListener('click', function() {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function() {
+              banner.style.display = 'none';
+              deferredPrompt = null;
+            });
+          });
+        });
+      }
+    });
+  }
+
+  // ── INITIALIZE ──
+  document.addEventListener('DOMContentLoaded', function() {
+    initLogin();
+    initInstallBanner();
+  });
+
+})();
+</script>
+
+</body>
+</html>

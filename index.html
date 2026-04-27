@@ -424,11 +424,141 @@ a { color: inherit; text-decoration: none; }
       <div class="section-header-title">📅 Event Agenda</div>
       <div class="section-header-sub">Dell Technologies World 2026</div>
     </div>
-    <div class="placeholder-card" style="margin-top:16px;">
-      <div class="placeholder-icon">🏗️</div>
-      <div class="placeholder-title">Coming in Stage 2</div>
-      <div class="placeholder-sub">Full event agenda with keynotes, sessions, and floor map</div>
-    </div>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- STAGE 2A: EVENT AGENDA — HTML + CSS                            -->
+<!-- Replaces the placeholder inside id="sec-agenda"                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<style>
+/* ── AGENDA STYLES ── */
+.agenda-day-header {
+  background: rgba(6,114,203,0.08); border-left: 3px solid #0672CB;
+  margin: 16px 16px 0; padding: 10px 14px;
+  border-radius: 0 10px 10px 0;
+}
+.agenda-day-name { font-size: 13px; font-weight: 700; color: #0672CB; }
+.agenda-day-date { font-size: 11px; color: #40586D; margin-top: 1px; }
+
+.agenda-card {
+  background: #fff; border-radius: 12px; margin: 8px 16px 0;
+  overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.agenda-item {
+  display: flex; gap: 12px; padding: 13px 16px;
+  border-bottom: 1px solid #F0F0F0;
+  cursor: pointer; transition: background 0.12s;
+  align-items: flex-start;
+}
+.agenda-item:last-child { border-bottom: none; }
+.agenda-item:active { background: #F0F0F0; }
+
+.ag-time {
+  font-size: 12px; font-weight: 700; color: #0672CB;
+  min-width: 58px; padding-top: 1px; flex-shrink: 0;
+}
+.ag-body { flex: 1; min-width: 0; }
+.ag-title { font-size: 14px; color: #1D2C3B; line-height: 1.35; font-weight: 500; }
+.ag-loc { font-size: 12px; color: #40586D; margin-top: 2px; }
+.ag-tag {
+  font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 10px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+}
+.ag-tag-keynote { background: #0D2155; color: #fff; }
+.ag-tag-session { background: rgba(6,114,203,0.1); color: #0672CB; }
+.ag-tag-meeting { background: rgba(11,124,132,0.1); color: #0B7C84; }
+.ag-tag-break { background: #F0F0F0; color: #40586D; }
+
+/* ── AGENDA DETAIL OVERLAY ── */
+.agenda-detail-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: #F0F0F0; overflow-y: auto;
+}
+.agenda-detail-overlay.open { display: block; }
+.agenda-detail-topbar {
+  position: sticky; top: 0; z-index: 10;
+  background: linear-gradient(135deg, #0672CB 0%, #00468B 100%);
+  padding: 50px 20px 14px; color: #fff;
+  display: flex; align-items: center; gap: 10px;
+}
+.agenda-detail-back {
+  font-size: 22px; cursor: pointer; background: none; border: none;
+  color: #fff; padding: 0 8px 0 0; line-height: 1;
+}
+.agenda-detail-topbar-title { font-size: 17px; font-weight: 600; flex: 1; color: #fff; }
+.agenda-detail-hero {
+  background: linear-gradient(135deg, #0672CB 0%, #00468B 100%);
+  padding: 0 20px 24px; color: #fff;
+}
+.agenda-detail-time { font-size: 13px; opacity: 0.8; margin-bottom: 4px; }
+.agenda-detail-title { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+.agenda-detail-type-badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 4px 12px; border-radius: 20px;
+  background: rgba(255,255,255,0.2); color: #fff;
+}
+.agenda-detail-section {
+  padding: 16px 20px; border-bottom: 1px solid #F0F0F0;
+  background: #fff; margin-bottom: 1px;
+}
+.agenda-detail-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  color: #40586D; text-transform: uppercase; margin-bottom: 8px;
+}
+.agenda-detail-text { font-size: 14px; color: #1D2C3B; line-height: 1.6; }
+
+/* ── FLOOR MAP ── */
+.floor-map-container {
+  margin: 16px; background: #fff; border-radius: 12px;
+  overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.floor-map-header {
+  padding: 14px 16px; border-bottom: 1px solid #F0F0F0;
+}
+.floor-map-title { font-size: 14px; font-weight: 600; color: #1D2C3B; }
+.floor-map-sub { font-size: 12px; color: #40586D; margin-top: 2px; }
+.floor-map-img-wrap {
+  width: 100%; overflow: auto; -webkit-overflow-scrolling: touch;
+  max-height: 60vh; position: relative;
+}
+.floor-map-img-wrap img {
+  width: 100%; min-width: 600px; display: block;
+  touch-action: pinch-zoom;
+}
+.floor-map-empty {
+  padding: 40px 24px; text-align: center;
+  color: #B6B6B6; font-size: 13px;
+}
+</style>
+
+<!-- ── AGENDA SECTION CONTENT ── -->
+<!-- This replaces everything inside <div class="section-view" id="sec-agenda"> -->
+<!-- after the section-header div -->
+
+<div id="agenda-content"></div>
+
+<!-- FLOOR MAP -->
+<div class="floor-map-container" id="floorMapContainer" style="display:none;">
+  <div class="floor-map-header">
+    <div class="floor-map-title">🗺️ Venue Floor Map</div>
+    <div class="floor-map-sub">Pinch to zoom · Scroll to navigate</div>
+  </div>
+  <div class="floor-map-img-wrap" id="floorMapWrap">
+    <!-- Image inserted by JS from FLOOR_MAP_URL -->
+  </div>
+</div>
+
+<!-- AGENDA DETAIL OVERLAY -->
+<div class="agenda-detail-overlay" id="agendaDetailOverlay">
+  <div class="agenda-detail-topbar">
+    <button class="agenda-detail-back" onclick="closeAgendaDetail()">←</button>
+    <div class="agenda-detail-topbar-title">Session Details</div>
+  </div>
+  <div id="agendaDetailContent"></div>
+</div>
+
+   
+
   </div>
 
   <!-- TEAM HUB -->
@@ -437,11 +567,133 @@ a { color: inherit; text-decoration: none; }
       <div class="section-header-title">👥 Team Hub</div>
       <div class="section-header-sub">Shifts, roles & team meetings</div>
     </div>
-    <div class="placeholder-card" style="margin-top:16px;">
-      <div class="placeholder-icon">🏗️</div>
-      <div class="placeholder-title">Coming in Stage 2</div>
-      <div class="placeholder-sub">Shift calendar, roles, responsibilities, and manager overview</div>
-    </div>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- STAGE 2B: TEAM HUB — HTML + CSS                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ── Team Hub CSS (insert inside existing <style> or just before the teamhub content) ── -->
+<style>
+  /* ── Team Hub ── */
+  .hub-tabs { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+  .hub-tab {
+    font-size:12px; font-weight:600; padding:7px 14px; border-radius:20px;
+    border:1.5px solid #D2D2D2; background:#fff; color:#40586D;
+    cursor:pointer; transition:all .15s;
+  }
+  .hub-tab.active { background:#0672CB; color:#fff; border-color:#0672CB; }
+
+  .shift-grid { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px; }
+
+  .shift-card {
+    background:#fff; border-radius:12px; padding:14px 16px;
+    box-shadow:0 1px 3px rgba(0,0,0,.06); border-left:3px solid #0672CB;
+  }
+  .shift-card-name { font-size:14px; font-weight:700; color:#1D2C3B; margin-bottom:2px; }
+  .shift-card-platform { font-size:12px; color:#0672CB; font-weight:600; margin-bottom:6px; }
+  .shift-card-time { font-size:12px; color:#40586D; }
+  .shift-card-time span { font-weight:600; }
+
+  .shift-card[data-platform="twitter"]  { border-left-color:#0672CB; }
+  .shift-card[data-platform="linkedin"] { border-left-color:#0B7C84; }
+  .shift-card[data-platform="instagram"]{ border-left-color:#66278F; }
+  .shift-card[data-platform="facebook"] { border-left-color:#00468B; }
+  .shift-card[data-platform="tiktok"]   { border-left-color:#044E52; }
+
+  .hub-section-title {
+    font-size:13px; font-weight:700; color:#0672CB; letter-spacing:.04em;
+    text-transform:uppercase; margin:20px 0 10px; padding-bottom:6px;
+    border-bottom:2px solid #D2D2D2;
+  }
+
+  .role-card {
+    background:#fff; border-radius:12px; padding:14px 16px; margin-bottom:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,.06);
+    display:flex; align-items:flex-start; gap:12px;
+  }
+  .role-avatar {
+    width:38px; height:38px; border-radius:50%; background:#E8F0FE;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; flex-shrink:0; color:#0672CB; font-weight:700;
+  }
+  .role-info { flex:1; }
+  .role-name { font-size:14px; font-weight:600; color:#1D2C3B; }
+  .role-desc { font-size:12px; color:#40586D; margin-top:2px; line-height:1.4; }
+  .role-badge {
+    font-size:10px; font-weight:600; padding:3px 8px; border-radius:10px;
+    display:inline-block; margin-top:4px;
+  }
+  .role-badge-twitter  { background:#E8F0FE; color:#0672CB; }
+  .role-badge-linkedin { background:#E6F4F5; color:#0B7C84; }
+  .role-badge-instagram{ background:#F3EEFA; color:#66278F; }
+  .role-badge-facebook { background:#E0EAF5; color:#00468B; }
+  .role-badge-tiktok   { background:#E4F0F1; color:#044E52; }
+
+  .meeting-item {
+    background:#fff; border-radius:12px; padding:14px 16px; margin-bottom:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,.06);
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .meeting-time {
+    font-size:12px; font-weight:700; color:#0672CB;
+    min-width:56px; flex-shrink:0; padding-top:1px;
+  }
+  .meeting-body { flex:1; }
+  .meeting-title { font-size:14px; font-weight:600; color:#1D2C3B; }
+  .meeting-loc { font-size:12px; color:#40586D; margin-top:2px; }
+
+  .manager-overview {
+    background:#E8F0FE; border-radius:12px; padding:16px; margin-bottom:16px;
+    border:1px solid rgba(6,114,203,.15);
+  }
+  .manager-overview-title {
+    font-size:12px; font-weight:700; color:#0672CB;
+    letter-spacing:.06em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .manager-stat-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .manager-stat {
+    background:#fff; border-radius:10px; padding:10px 14px; flex:1; min-width:120px;
+    text-align:center; border:1px solid #D2D2D2;
+  }
+  .manager-stat-num { font-size:20px; font-weight:700; color:#0672CB; }
+  .manager-stat-label { font-size:11px; color:#40586D; margin-top:2px; }
+</style>
+
+<!-- ── Team Hub HTML content ── -->
+
+<!-- Day filter tabs -->
+<div class="hub-tabs" id="hub-day-tabs">
+  <button class="hub-tab active" onclick="filterHubDay('all',this)">All Days</button>
+  <button class="hub-tab" onclick="filterHubDay('day1',this)">Day 1</button>
+  <button class="hub-tab" onclick="filterHubDay('day2',this)">Day 2</button>
+  <button class="hub-tab" onclick="filterHubDay('day3',this)">Day 3</button>
+  <button class="hub-tab" onclick="filterHubDay('day4',this)">Day 4</button>
+</div>
+
+<!-- Manager overview panel (hidden for non-manager roles) -->
+<div class="manager-overview" id="hub-manager-panel" style="display:none;">
+  <div class="manager-overview-title">📊 Manager Overview</div>
+  <div class="manager-stat-row" id="hub-manager-stats">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- Shift Calendar -->
+<div class="hub-section-title">📅 Shift Calendar</div>
+<div class="shift-grid" id="hub-shift-grid">
+  <!-- Populated by JS from TEAM_MEMBERS + PLATFORM_PLANS -->
+</div>
+
+<!-- Team Meetings -->
+<div class="hub-section-title">🤝 Team Meetings</div>
+<div id="hub-meetings">
+  <!-- Populated by JS from EVENT_AGENDA where type === 'team-meeting' -->
+</div>
+
+<!-- Roles & Responsibilities -->
+<div class="hub-section-title">🎯 Roles & Responsibilities</div>
+<div id="hub-roles">
+  <!-- Populated by JS from TEAM_MEMBERS -->
+</div>
   </div>
 
   <!-- PLATFORM PLANS -->
@@ -868,6 +1120,304 @@ a { color: inherit; text-decoration: none; }
   });
 
 })();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- STAGE 2C PART 1: LOGO FIX + TOPBAR FIX + AGENDA JS             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<script>
+// ── FIX 1: Dell Logo ──────────────────────────────────────────────
+// Replace the placeholder logo with the actual Dell Technologies wordmark
+(function fixLogo(){
+  try {
+    var img = document.querySelector('.topbar img');
+    if(img) img.src = 'data:image/png;base64,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';
+  } catch(e){}
+})();
+
+// ── FIX 2: Topbar spacing ─────────────────────────────────────────
+(function fixTopbar(){
+  try {
+    var tb = document.querySelector('.topbar');
+    if(tb) tb.style.padding = '54px 20px 16px';
+  } catch(e){}
+})();
+
+// ── AGENDA: Render function ───────────────────────────────────────
+function safe(fn){ try{ fn(); } catch(e){ console.warn('safe() caught:', e); } }
+
+safe(function renderAgenda(){
+  var container = document.getElementById('agenda-content');
+  if(!container || typeof EVENT_AGENDA === 'undefined') return;
+
+  // Group items by day
+  var days = {};
+  var dayOrder = [];
+  EVENT_AGENDA.forEach(function(item){
+    if(!days[item.day]){
+      days[item.day] = [];
+      dayOrder.push(item.day);
+    }
+    days[item.day].push(item);
+  });
+
+  var html = '';
+  dayOrder.forEach(function(dayKey){
+    var items = days[dayKey];
+    // Day header
+    var dayLabel = dayKey.replace('day','Day ');
+    var firstItem = items[0];
+    var dateStr = firstItem.date || '';
+    html += '<div class="agenda-day-header">';
+    html += '<div class="agenda-day-name">' + dayLabel + '</div>';
+    html += '<div class="agenda-day-date">' + dateStr + '</div>';
+    html += '</div>';
+
+    // Items
+    items.forEach(function(item, idx){
+      var typeClass = 'badge-' + (item.type || 'session');
+      var typeLabel = (item.type || 'session').charAt(0).toUpperCase() + (item.type || 'session').slice(1);
+      html += '<div class="agenda-item" onclick="showAgendaDetail(' + idx + ',\'' + dayKey + '\')">';
+      html += '<div class="agenda-item-time">' + (item.time || '') + '</div>';
+      html += '<div class="agenda-item-body">';
+      html += '<div class="agenda-item-title">' + (item.title || '') + '</div>';
+      html += '<div class="agenda-item-loc">' + (item.location || '') + '</div>';
+      html += '</div>';
+      html += '<span class="agenda-type-badge ' + typeClass + '">' + typeLabel + '</span>';
+      html += '</div>';
+    });
+  });
+
+  container.innerHTML = html;
+
+  // Day tab filtering
+  var tabBtns = document.querySelectorAll('#agenda-day-tabs .agenda-tab');
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-day') || btn.textContent.trim().toLowerCase().replace('all days','all').replace('day ','day');
+      filterAgendaDay(filter);
+    });
+  });
+});
+
+function filterAgendaDay(dayKey){
+  var container = document.getElementById('agenda-content');
+  if(!container || typeof EVENT_AGENDA === 'undefined') return;
+
+  var days = {};
+  var dayOrder = [];
+  EVENT_AGENDA.forEach(function(item){
+    if(!days[item.day]){
+      days[item.day] = [];
+      dayOrder.push(item.day);
+    }
+    days[item.day].push(item);
+  });
+
+  var html = '';
+  dayOrder.forEach(function(dk){
+    if(dayKey !== 'all' && dk !== dayKey) return;
+    var items = days[dk];
+    var dayLabel = dk.replace('day','Day ');
+    var dateStr = items[0].date || '';
+    html += '<div class="agenda-day-header">';
+    html += '<div class="agenda-day-name">' + dayLabel + '</div>';
+    html += '<div class="agenda-day-date">' + dateStr + '</div>';
+    html += '</div>';
+    items.forEach(function(item, idx){
+      var typeClass = 'badge-' + (item.type || 'session');
+      var typeLabel = (item.type || 'session').charAt(0).toUpperCase() + (item.type || 'session').slice(1);
+      html += '<div class="agenda-item" onclick="showAgendaDetail(' + idx + ',\'' + dk + '\')">';
+      html += '<div class="agenda-item-time">' + (item.time || '') + '</div>';
+      html += '<div class="agenda-item-body">';
+      html += '<div class="agenda-item-title">' + (item.title || '') + '</div>';
+      html += '<div class="agenda-item-loc">' + (item.location || '') + '</div>';
+      html += '</div>';
+      html += '<span class="agenda-type-badge ' + typeClass + '">' + typeLabel + '</span>';
+      html += '</div>';
+    });
+  });
+  container.innerHTML = html;
+}
+
+function showAgendaDetail(idx, dayKey){
+  var overlay = document.getElementById('agenda-detail-overlay');
+  if(!overlay || typeof EVENT_AGENDA === 'undefined') return;
+
+  var items = EVENT_AGENDA.filter(function(i){ return i.day === dayKey; });
+  var item = items[idx];
+  if(!item) return;
+
+  var html = '<div class="agenda-detail-title">' + (item.title || '') + '</div>';
+  html += '<div class="agenda-detail-meta">';
+  html += '<span>🕐 ' + (item.time || '') + '</span>';
+  html += '<span>📍 ' + (item.location || '') + '</span>';
+  html += '</div>';
+  html += '<div class="agenda-detail-body">' + (item.details || 'Details coming soon.') + '</div>';
+
+  document.getElementById('agenda-detail-content').innerHTML = html;
+  overlay.style.display = 'block';
+  overlay.scrollTop = 0;
+}
+
+function closeAgendaDetail(){
+  var overlay = document.getElementById('agenda-detail-overlay');
+  if(overlay) overlay.style.display = 'none';
+}
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- STAGE 2C PART 2: TEAM HUB JS                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<script>
+// ── TEAM HUB: Render functions ────────────────────────────────────
+safe(function renderTeamHub(){
+  renderHubShifts('all');
+  renderHubMeetings();
+  renderHubRoles();
+  renderHubManagerPanel();
+});
+
+function filterHubDay(dayKey, btn){
+  // Update active tab
+  var tabs = document.querySelectorAll('#hub-day-tabs .hub-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderHubShifts(dayKey);
+  renderHubMeetings(dayKey);
+}
+
+function renderHubShifts(dayFilter){
+  var grid = document.getElementById('hub-shift-grid');
+  if(!grid || typeof TEAM_MEMBERS === 'undefined' || typeof PLATFORM_PLANS === 'undefined') return;
+
+  var html = '';
+  TEAM_MEMBERS.forEach(function(member){
+    if(member.role === 'manager') return; // managers don't have shifts
+
+    // Find platform assignment
+    var platformName = member.platform || 'General';
+    var platformKey = platformName.toLowerCase();
+
+    // Generate shift cards per day
+    var eventDays = ['day1','day2','day3','day4'];
+    eventDays.forEach(function(day){
+      if(dayFilter !== 'all' && day !== dayFilter) return;
+
+      var dayLabel = day.replace('day','Day ');
+      var shiftTime = member.shifts && member.shifts[day] ? member.shifts[day] : '9:00 AM – 5:00 PM';
+
+      html += '<div class="shift-card" data-platform="' + platformKey + '">';
+      html += '<div class="shift-card-name">' + member.name + '</div>';
+      html += '<div class="shift-card-platform">' + platformName + ' · ' + dayLabel + '</div>';
+      html += '<div class="shift-card-time">🕐 <span>' + shiftTime + '</span></div>';
+      html += '</div>';
+    });
+  });
+
+  grid.innerHTML = html || '<div style="padding:16px;color:#40586D;font-size:13px;">No shifts scheduled.</div>';
+}
+
+function renderHubMeetings(dayFilter){
+  var container = document.getElementById('hub-meetings');
+  if(!container || typeof EVENT_AGENDA === 'undefined') return;
+
+  var meetings = EVENT_AGENDA.filter(function(item){
+    return item.type === 'team-meeting';
+  });
+
+  if(dayFilter && dayFilter !== 'all'){
+    meetings = meetings.filter(function(item){ return item.day === dayFilter; });
+  }
+
+  var html = '';
+  if(meetings.length === 0){
+    html = '<div style="padding:16px;color:#40586D;font-size:13px;">No team meetings ' + (dayFilter && dayFilter !== 'all' ? 'on this day' : 'scheduled') + '.</div>';
+  } else {
+    meetings.forEach(function(m){
+      html += '<div class="meeting-item">';
+      html += '<div class="meeting-time">' + (m.time || '') + '</div>';
+      html += '<div class="meeting-body">';
+      html += '<div class="meeting-title">' + (m.title || '') + '</div>';
+      html += '<div class="meeting-loc">' + (m.location || '') + '</div>';
+      html += '</div>';
+      html += '</div>';
+    });
+  }
+
+  container.innerHTML = html;
+}
+
+function renderHubRoles(){
+  var container = document.getElementById('hub-roles');
+  if(!container || typeof TEAM_MEMBERS === 'undefined') return;
+
+  var html = '';
+  TEAM_MEMBERS.forEach(function(member){
+    var initials = member.name.split(' ').map(function(n){ return n.charAt(0); }).join('').substring(0,2);
+    var platformKey = (member.platform || 'general').toLowerCase();
+    var badgeClass = 'role-badge-' + platformKey;
+
+    html += '<div class="role-card">';
+    html += '<div class="role-avatar">' + initials + '</div>';
+    html += '<div class="role-info">';
+    html += '<div class="role-name">' + member.name + '</div>';
+    html += '<div class="role-desc">' + (member.responsibility || member.role || '') + '</div>';
+    if(member.platform){
+      html += '<span class="role-badge ' + badgeClass + '">' + member.platform + '</span>';
+    }
+    html += '</div>';
+    html += '</div>';
+  });
+
+  container.innerHTML = html || '<div style="padding:16px;color:#40586D;font-size:13px;">No team members configured.</div>';
+}
+
+function renderHubManagerPanel(){
+  var panel = document.getElementById('hub-manager-panel');
+  var statsContainer = document.getElementById('hub-manager-stats');
+  if(!panel || !statsContainer) return;
+
+  // Check if current user is a manager or admin
+  try {
+    var token = JSON.parse(localStorage.getItem('dtw_user') || '{}');
+    if(token.role !== 'manager' && token.role !== 'admin'){
+      panel.style.display = 'none';
+      return;
+    }
+  } catch(e){
+    panel.style.display = 'none';
+    return;
+  }
+
+  panel.style.display = 'block';
+
+  if(typeof TEAM_MEMBERS === 'undefined') return;
+
+  // Calculate stats
+  var totalMembers = TEAM_MEMBERS.length;
+  var inSite = TEAM_MEMBERS.filter(function(m){ return m.role === 'in-site'; }).length;
+  var remote = TEAM_MEMBERS.filter(function(m){ return m.role === 'remote'; }).length;
+  var platforms = {};
+  TEAM_MEMBERS.forEach(function(m){
+    if(m.platform){
+      platforms[m.platform] = (platforms[m.platform] || 0) + 1;
+    }
+  });
+  var platformCount = Object.keys(platforms).length;
+
+  var html = '';
+  html += '<div class="manager-stat"><div class="manager-stat-num">' + totalMembers + '</div><div class="manager-stat-label">Team Members</div></div>';
+  html += '<div class="manager-stat"><div class="manager-stat-num">' + inSite + '</div><div class="manager-stat-label">On-Site</div></div>';
+  html += '<div class="manager-stat"><div class="manager-stat-num">' + remote + '</div><div class="manager-stat-label">Remote</div></div>';
+  html += '<div class="manager-stat"><div class="manager-stat-num">' + platformCount + '</div><div class="manager-stat-label">Platforms</div></div>';
+
+  statsContainer.innerHTML = html;
+}
 </script>
 
 </body>
